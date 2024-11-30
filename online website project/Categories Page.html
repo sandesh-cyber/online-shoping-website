@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Categories</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.1/css/all.min.css"/>
+    <style>
+      /* General Reset */
+
+      :root {
+        /* Day Theme Colors */
+        --day-bg: #ffffff;
+        --day-text: #333333;
+        --primary-color: #0073e6;
+
+        /* Night Theme Colors */
+        --night-bg: #1a1a2e;
+        --night-text: #f5f5f5;
+      }
+
+      body {
+        margin: 0;
+        font-family: Arial, sans-serif;
+        background-color: var(--day-bg);
+        color: var(--day-text);
+        transition: all 0.3s ease;
+      }
+
+      .header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 1rem 2rem;
+        background-color: var(--day-bg);
+        color: var(--day-text);
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        position: sticky;
+        top: 0;
+        z-index: 1000;
+        transition: all 0.3s ease;
+      }
+
+      .logo h1 {
+        font-size: 1.5rem;
+        color: var(--primary-color);
+      }
+
+      .nav {
+        display: flex;
+        gap: 4.5rem;
+        margin-left: 8%;
+      }
+
+      .nav a {
+        text-decoration: none;
+        color: var(--day-text);
+        font-weight: 500;
+        transition: color 0.2s ease;
+      }
+
+      .nav a:hover {
+        color: var(--primary-color);
+      }
+
+      .header-actions {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        /* margin-left: 10%; */
+      }
+
+      .header-actions input {
+        padding: 0.5rem;
+        border: 1px solid var(--day-text);
+        border-radius: 5px;
+        background-color: transparent;
+        color: var(--day-text);
+        transition: color 0.3s ease, border-color 0.3s ease;
+      }
+
+      .header-actions input::placeholder {
+        color: var(--day-text);
+      }
+
+      .header-actions a {
+        text-decoration: none;
+        color: var(--day-text);
+        font-weight: 600;
+        padding: 0.5rem 1rem;
+        border: 1px solid var(--day-text);
+        border-radius: 5px;
+        transition: background-color 0.3s ease, color 0.3s ease;
+      }
+
+      .header-actions a:hover {
+        background-color: var(--primary-color);
+        color: var(--day-bg);
+      }
+
+      #theme-toggle {
+        font-size: 1.2rem;
+        background: none;
+        border: none;
+        color: var(--day-text);
+        cursor: pointer;
+        transition: transform 0.2s ease, color 0.3s ease;
+      }
+
+      #theme-toggle:hover {
+        transform: scale(1.2);
+      }
+
+      /* Night Theme */
+      body.night-theme {
+        background-color: var(--night-bg);
+        color: var(--night-text);
+      }
+
+      body.night-theme .header {
+        background-color: var(--night-bg);
+        color: var(--night-text);
+      }
+
+      body.night-theme .nav a {
+        color: var(--night-text);
+      }
+
+      body.night-theme .header-actions input {
+        border-color: var(--night-text);
+        color: var(--night-text);
+      }
+
+      body.night-theme .header-actions input::placeholder {
+        color: var(--night-text);
+      }
+
+      body.night-theme .header-actions a {
+        color: var(--night-text);
+        border-color: var(--night-text);
+      }
+
+      body.night-theme #theme-toggle {
+        color: var(--night-text);
+      }
+
+      @media (max-width: 768px) {
+        .nav {
+          display: none;
+        }
+
+        .nav.active {
+          display: flex;
+          flex-direction: column;
+          background-color: var(--day-bg);
+          position: absolute;
+          top: 100%;
+          left: 0;
+          right: 0;
+          padding: 1rem 2rem;
+          box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .header {
+          flex-wrap: wrap;
+        }
+
+        #menu-toggle {
+          display: block;
+          cursor: pointer;
+          font-size: 1.5rem;
+          margin-left: auto;
+        }
+      }
+
+      /* Hero Section */
+      .hero {
+        background: linear-gradient(135deg, #ff7e5f, #feb47b);
+        color: white;
+        text-align: center;
+        padding: 4rem 2rem;
+      }
+
+      .hero-content h2 {
+        font-size: 3rem;
+        margin-bottom: 1rem;
+      }
+
+      .hero-content p {
+        font-size: 1.2rem;
+        margin-bottom: 2rem;
+      }
+
+      .hero-btn {
+        background-color: #007bff;
+        color: #fff;
+        padding: 0.8rem 1.5rem;
+        border: none;
+        border-radius: 5px;
+        text-decoration: none;
+        font-size: 1rem;
+        cursor: pointer;
+        transition: background 0.3s ease, transform 0.3s ease;
+      }
+
+      .hero-btn:hover {
+        background-color: #0056b3;
+        transform: scale(1.05);
+      }
+
+      /* Filter Section */
+      .filters {
+        background-color: #fff;
+        padding: 1.5rem 2rem;
+        display: flex;
+        justify-content: center;
+        gap: 1rem;
+        border-bottom: 1px solid #ddd;
+      }
+
+      .search-bar {
+        width: 40%;
+        padding: 0.8rem;
+        font-size: 1rem;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+      }
+
+      .filter-dropdown {
+        padding: 0.8rem;
+        font-size: 1rem;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        width: 31%;
+      }
+
+      .filter-btn {
+        padding: 0.8rem 1.5rem;
+        background-color: #007bff;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 1rem;
+        transition: background 0.3s ease, transform 0.3s ease;
+      }
+
+      .filter-btn:hover {
+        background-color: #0056b3;
+        transform: scale(1.05);
+      }
+
+      /* Categories Section */
+      .categories {
+        padding: 2rem;
+        text-align: center;
+      }
+
+      .section-title {
+        font-size: 2.2rem;
+        margin-bottom: 2rem;
+        color: #333;
+      }
+
+      .category-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 2rem;
+      }
+
+      .category-card {
+        background: white;
+        border-radius: 10px;
+        box-shadow: 0 6px 10px rgba(0, 0, 0, 0.1);
+        overflow: hidden;
+        text-align: center;
+        transition: transform 0.3s, box-shadow 0.3s;
+        position: relative;
+      }
+
+      .category-card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+      }
+
+      .card-image img {
+        width: 100%;
+        height: 200px;
+        object-fit: cover;
+      }
+
+      .category-card h3 {
+        font-size: 1.4rem;
+        margin: 1rem 0 0.5rem;
+        color: #007bff;
+      }
+
+      .category-card p {
+        margin: 0 1rem 1.5rem;
+        color: #666;
+        font-size: 0.9rem;
+      }
+
+      /* Transitions for Filtering */
+      .category-card {
+        display: block;
+        opacity: 1;
+        transition: transform 0.3s ease, opacity 0.3s ease;
+      }
+
+      .category-card[style*="display: none"] {
+        opacity: 0;
+        transform: scale(0.9);
+        pointer-events: none;
+      }
+
+      /* Footer Section */
+      .footer {
+        background-color: #1e1e2f;
+        color: #fff;
+        padding: 2rem 1rem;
+      }
+
+      .footer-container {
+        max-width: 1200px;
+        margin: 0 auto;
+      }
+
+      .footer-logo {
+        text-align: center;
+        margin-bottom: 2rem;
+      }
+
+      .footer-logo h1 {
+        font-size: 2rem;
+        margin-bottom: 0.5rem;
+        color: #00c6ff;
+      }
+
+      .footer-logo p {
+        font-size: 1rem;
+        color: #ccc;
+      }
+
+      .footer-links {
+        display: flex;
+        justify-content: space-around;
+        flex-wrap: wrap;
+      }
+
+      .footer-section {
+        flex: 1;
+        max-width: 250px;
+        margin-bottom: 2rem;
+      }
+
+      .footer-section h3 {
+        font-size: 1.2rem;
+        margin-bottom: 1rem;
+        color: #fff;
+      }
+
+      .footer-section ul {
+        list-style: none;
+        padding: 0;
+      }
+
+      .footer-section ul li {
+        margin: 0.5rem 0;
+      }
+
+      .footer-section ul li a {
+        color: #ccc;
+        text-decoration: none;
+        transition: color 0.3s;
+      }
+
+      .footer-section ul li a:hover {
+        color: #00c6ff;
+      }
+
+      .social-links {
+        display: flex;
+        gap: 1rem;
+      }
+
+      .social-icon {
+        color: #ccc;
+        text-decoration: none;
+        font-size: 1.1rem;
+        transition: color 0.3s;
+      }
+
+      .social-icon:hover {
+        color: #00c6ff;
+      }
+
+      /* Footer Bottom */
+      .footer-bottom {
+        text-align: center;
+        margin-top: 2rem;
+        border-top: 1px solid #444;
+        padding-top: 1rem;
+      }
+
+      .footer-bottom p {
+        font-size: 0.9rem;
+        color: #ccc;
+      }
+
+      /* Responsive Design */
+      @media (max-width: 768px) {
+        .filters {
+          flex-wrap: wrap;
+          gap: 0.5rem;
+        }
+
+        .search-bar {
+          width: 100%;
+        }
+
+        .filter-dropdown {
+          width: 100%;
+        }
+
+        .filter-btn {
+          width: 100%;
+        }
+
+        .footer-links {
+          flex-direction: column;
+          align-items: center;
+        }
+
+        .footer-section {
+          text-align: center;
+          max-width: none;
+          margin-bottom: 1.5rem;
+        }
+
+        .social-links {
+          justify-content: center;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header class="header">
+      <div class="logo">
+        <h1>ShopMate</h1>
+      </div>
+      <nav class="nav">
+        <a href="index.html">Home</a>
+        <a href="Categories Page.html">Categories</a>
+        <a href="Offers Page.html">Deals</a>
+        <a href="About Us Page.html">About</a>
+        <a href="Contact Us Page.html">Contact</a>
+      </nav>
+      <div class="header-actions">
+        <input type="text" placeholder="Search..." />
+        <a href="#" class="cart"><span>🛒</span> Cart</a>
+        <a href="#" class="login-btn">Login</a>
+        <button id="menu-toggle" style="display: none">☰</button>
+      </div>
+    </header>
+
+    <section class="hero">
+      <div class="hero-content">
+        <h2>Discover Your Favorite Products</h2>
+        <p>Browse by categories, and explore the best deals in one place.</p>
+        <a href="#categories" class="hero-btn">Explore Categories</a>
+      </div>
+    </section>
+
+    <!-- Filter Section -->
+    <section class="filters">
+      <div class="filter-container">
+        <input
+          type="text"
+          class="search-bar"
+          id="searchInput"
+          placeholder="Search for categories..."
+        />
+        <select class="filter-dropdown" id="filterSelect">
+          <option value="">Sort by</option>
+          <option value="popularity">Most Popular</option>
+          <option value="new">Newest</option>
+          <option value="price-asc">Low to High</option>
+          <option value="price-desc">High to Low</option>
+        </select>
+        <button class="filter-btn" id="applyFilters">Search</button>
+      </div>
+    </section>
+
+    <section id="categories" class="categories">
+      <h2 class="section-title">Our Featured Categories</h2>
+      <div class="category-grid" id="categoryGrid">
+        <!-- Cards (example cards shown here for demo) -->
+        <div class="category-card" data-popularity="5" data-price="500">
+          <div class="card-image">
+            <img src="https://images-eu.ssl-images-amazon.com/images/G/31/IMG15/Irfan/GATEWAY/MSO/Appliances-QC-PC-186x116--B08345R1ZW._SY116_CB667322346_.jpg" alt="Electronics" />
+          </div>
+          <h3>Electronics</h3>
+          <p>Upgrade your gadgets today!</p>
+        </div>
+        <div class="category-card" data-popularity="3" data-price="150">
+          <div class="card-image">
+            <img src="https://m.media-amazon.com/images/I/719d9xpfS2L._AC_SY145_.jpg" alt="Fashion" />
+          </div>
+          <h3>Fashion</h3>
+          <p>Step into the latest trends.</p>
+        </div>
+        <div class="category-card" data-popularity="4" data-price="300">
+          <div class="card-image">
+            <img src="https://m.media-amazon.com/images/I/81tOJ3uVe3L._AC_SY200_.jpg" alt="Home & Living" />
+          </div>
+          <h3>Home & Living</h3>
+          <p>Transform your home into a haven.</p>
+        </div>
+        <div class="category-card" data-popularity="2" data-price="50">
+          <div class="card-image">
+            <img src="https://m.media-amazon.com/images/I/91msEbTletL._AC_UY327_FMwebp_QL65_.jpg" alt="Books" />
+          </div>
+          <h3>Books</h3>
+          <p>Discover worlds within pages.</p>
+        </div>
+        <div class="category-card" data-popularity="1" data-price="200">
+          <div class="card-image">
+            <img src="https://m.media-amazon.com/images/I/81HCYK1ETBS._AC_UL480_FMwebp_QL65_.jpg" alt="Sports" />
+          </div>
+          <h3>Sports</h3>
+          <p>Everything you need for your game.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer Section -->
+
+    <footer class="footer">
+      <div class="footer-container">
+        <div class="footer-logo">
+          <h1>ShopMate</h1>
+          <p>Your one-stop online shop for everything you need!</p>
+        </div>
+        <div class="footer-links">
+          <div class="footer-section">
+            <h3>Quick Links</h3>
+            <ul>
+              <li><a href="index.html">Home</a></li>
+              <li><a href="Categories Page.html">Categories</a></li>
+              <li><a href="Offers Page.html">Deals</a></li>
+              <li><a href="About Us Page.html">About</a></li>
+              <li><a href="Contact Us Page.html">Contact</a></li>
+            </ul>
+          </div>
+          <div class="footer-section">
+            <h3>Support</h3>
+            <ul>
+              <li><a href="#">Help Center</a></li>
+              <li><a href="#">Returns & Exchanges</a></li>
+              <li><a href="#">Shipping Info</a></li>
+              <li><a href="#">FAQs</a></li>
+            </ul>
+          </div>
+          <div class="footer-section">
+            <h3>Follow Us</h3>
+            <ul class="social-links">
+              <li><a href="#" class="social-icon"><i class="fa-brands fa-facebook"></i></a></li>
+              <li><a href="#" class="social-icon"><i class="fa-brands fa-twitter"></i></a></li>
+              <li><a href="#" class="social-icon"><i class="fa-brands fa-instagram"></i></a></li>
+              <li><a href="#" class="social-icon"><i class="fa-brands fa-linkedin"></i></a></li>
+            </ul>
+          </div>
+        </div>
+        <div class="footer-bottom">
+          <p>&copy; 2024 ShopMate. All Rights Reserved.</p>
+        </div>
+      </div>
+    </footer>
+    <script src="scripts.js"></script>
+  </body>
+</html>

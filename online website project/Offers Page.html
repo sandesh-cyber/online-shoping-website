@@ -1,0 +1,584 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Deals & Offers</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.1/css/all.min.css"/>
+    <style>
+      :root {
+        /* Day Theme Colors */
+        --day-bg: #ffffff;
+        --day-text: #333333;
+        --primary-color: #0073e6;
+
+        /* Night Theme Colors */
+        --night-bg: #1a1a2e;
+        --night-text: #f5f5f5;
+      }
+      /* General Reset */
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Poppins", sans-serif;
+        background-color: #f9f9f9;
+        color: #333;
+        line-height: 1.6;
+      }
+
+      /* Header */
+      .header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 1rem 2rem;
+        background-color: var(--day-bg);
+        color: var(--day-text);
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        position: sticky;
+        top: 0;
+        z-index: 1000;
+        transition: all 0.3s ease;
+      }
+
+      .logo h1 {
+        font-size: 1.5rem;
+        color: var(--primary-color);
+      }
+
+      .nav {
+        display: flex;
+        gap: 4.5rem;
+        margin-left: 8%;
+      }
+
+      .nav a {
+        text-decoration: none;
+        color: var(--day-text);
+        font-weight: 500;
+        transition: color 0.2s ease;
+      }
+
+      .nav a:hover {
+        color: var(--primary-color);
+      }
+
+      .header-actions {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        /* margin-left: 10%; */
+      }
+
+      .header-actions input {
+        padding: 0.5rem;
+        border: 1px solid var(--day-text);
+        border-radius: 5px;
+        background-color: transparent;
+        color: var(--day-text);
+        transition: color 0.3s ease, border-color 0.3s ease;
+      }
+
+      .header-actions input::placeholder {
+        color: var(--day-text);
+      }
+
+      .header-actions a {
+        text-decoration: none;
+        color: var(--day-text);
+        font-weight: 600;
+        padding: 0.5rem 1rem;
+        border: 1px solid var(--day-text);
+        border-radius: 5px;
+        transition: background-color 0.3s ease, color 0.3s ease;
+      }
+
+      .header-actions a:hover {
+        background-color: var(--primary-color);
+        color: var(--day-bg);
+      }
+
+      #theme-toggle {
+        font-size: 1.2rem;
+        background: none;
+        border: none;
+        color: var(--day-text);
+        cursor: pointer;
+        transition: transform 0.2s ease, color 0.3s ease;
+      }
+
+      #theme-toggle:hover {
+        transform: scale(1.2);
+      }
+
+      /* Night Theme */
+      body.night-theme {
+        background-color: var(--night-bg);
+        color: var(--night-text);
+      }
+
+      body.night-theme .header {
+        background-color: var(--night-bg);
+        color: var(--night-text);
+      }
+
+      body.night-theme .nav a {
+        color: var(--night-text);
+      }
+
+      body.night-theme .header-actions input {
+        border-color: var(--night-text);
+        color: var(--night-text);
+      }
+
+      body.night-theme .header-actions input::placeholder {
+        color: var(--night-text);
+      }
+
+      body.night-theme .header-actions a {
+        color: var(--night-text);
+        border-color: var(--night-text);
+      }
+
+      body.night-theme #theme-toggle {
+        color: var(--night-text);
+      }
+
+      @media (max-width: 768px) {
+        .nav {
+          display: none;
+        }
+
+        .nav.active {
+          display: flex;
+          flex-direction: column;
+          background-color: var(--day-bg);
+          position: absolute;
+          top: 100%;
+          left: 0;
+          right: 0;
+          padding: 1rem 2rem;
+          box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .header {
+          flex-wrap: wrap;
+        }
+
+        #menu-toggle {
+          display: block;
+          cursor: pointer;
+          font-size: 1.5rem;
+          margin-left: auto;
+        }
+      }
+
+      /* Hero Section */
+      .hero {
+        background: linear-gradient(135deg, #ff7e5f, #feb47b);
+        color: white;
+        text-align: center;
+        padding: 4rem 2rem;
+      }
+
+      .hero-content h2 {
+        font-size: 3rem;
+        margin-bottom: 1rem;
+      }
+
+      .hero-content p {
+        font-size: 1.2rem;
+        margin-bottom: 2rem;
+      }
+
+      .hero-btn {
+        background-color: #007bff;
+        color: #fff;
+        padding: 0.8rem 1.5rem;
+        border: none;
+        border-radius: 5px;
+        text-decoration: none;
+        font-size: 1rem;
+        cursor: pointer;
+        transition: background 0.3s ease, transform 0.3s ease;
+      }
+
+      .hero-btn:hover {
+        background-color: #0056b3;
+        transform: scale(1.05);
+      }
+
+      /* Featured Deals Section */
+      .featured-deals {
+        padding: 2rem;
+        background-color: #fff;
+      }
+
+      .deal-banner {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 2rem;
+        border: 1px solid #ddd;
+        padding: 1.5rem;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      }
+
+      .deal-text {
+        max-width: 50%;
+      }
+
+      .deal-text h3 {
+        font-size: 2rem;
+        color: #007bff;
+      }
+
+      .deal-text p {
+        font-size: 1rem;
+        margin-bottom: 1rem;
+      }
+
+      .deal-banner img {
+        max-width: 40%;
+        border-radius: 10px;
+      }
+
+      /* Product Grid Section */
+      .product-grid {
+        padding: 2rem;
+        background-color: #f9f9f9;
+      }
+
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 2rem;
+      }
+
+      .product-card {
+        background: white;
+        border-radius: 10px;
+        box-shadow: 0 6px 10px rgba(0, 0, 0, 0.1);
+        overflow: hidden;
+        text-align: center;
+        transition: transform 0.3s, box-shadow 0.3s;
+      }
+
+      .product-card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+      }
+
+      .product-card img {
+        width: 100%;
+        height: 200px;
+        object-fit: cover;
+      }
+
+      .product-card h3 {
+        font-size: 1.4rem;
+        margin: 1rem 0 0.5rem;
+        color: #333;
+      }
+
+      .price {
+        margin: 0.5rem 0;
+      }
+
+      .original-price {
+        text-decoration: line-through;
+        color: #999;
+      }
+
+      .discounted-price {
+        color: #007bff;
+        font-weight: bold;
+      }
+
+      .btn {
+        background-color: #007bff;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        padding: 0.8rem 1.5rem;
+        cursor: pointer;
+        font-size: 1rem;
+        margin-top: 1rem;
+        transition: background 0.3s ease, transform 0.3s ease;
+      }
+
+      .btn:hover {
+        background-color: #0056b3;
+        transform: scale(1.05);
+      }
+
+      /* Footer Section */
+      .footer {
+        background-color: #1e1e2f;
+        color: #fff;
+        padding: 2rem 1rem;
+      }
+
+      .footer-container {
+        max-width: 1200px;
+        margin: 0 auto;
+      }
+
+      .footer-logo {
+        text-align: center;
+        margin-bottom: 2rem;
+      }
+
+      .footer-logo h1 {
+        font-size: 2rem;
+        margin-bottom: 0.5rem;
+        color: #00c6ff;
+      }
+
+      .footer-logo p {
+        font-size: 1rem;
+        color: #ccc;
+      }
+
+      .footer-links {
+        display: flex;
+        justify-content: space-around;
+        flex-wrap: wrap;
+      }
+
+      .footer-section {
+        flex: 1;
+        max-width: 250px;
+        margin-bottom: 2rem;
+      }
+
+      .footer-section h3 {
+        font-size: 1.2rem;
+        margin-bottom: 1rem;
+        color: #fff;
+      }
+
+      .footer-section ul {
+        list-style: none;
+        padding: 0;
+      }
+
+      .footer-section ul li {
+        margin: 0.5rem 0;
+      }
+
+      .footer-section ul li a {
+        color: #ccc;
+        text-decoration: none;
+        transition: color 0.3s;
+      }
+
+      .footer-section ul li a:hover {
+        color: #00c6ff;
+      }
+
+      .social-links {
+        display: flex;
+        gap: 1rem;
+      }
+
+      .social-icon {
+        color: #ccc;
+        text-decoration: none;
+        font-size: 1.1rem;
+        transition: color 0.3s;
+      }
+
+      .social-icon:hover {
+        color: #00c6ff;
+      }
+
+      /* Footer */
+      .footer-bottom {
+        text-align: center;
+        margin-top: 2rem;
+        border-top: 1px solid #444;
+        padding-top: 1rem;
+      }
+
+      .footer-bottom p {
+        font-size: 0.9rem;
+        color: #ccc;
+      }
+
+      /* Responsive Design */
+      @media (max-width: 768px) {
+        .deal-banner {
+          flex-wrap: wrap;
+          text-align: center;
+        }
+
+        .deal-text,
+        .deal-banner img {
+          max-width: 100%;
+          margin-bottom: 1rem;
+        }
+        .footer-links {
+          flex-direction: column;
+          align-items: center;
+        }
+
+        .footer-section {
+          text-align: center;
+          max-width: none;
+          margin-bottom: 1.5rem;
+        }
+
+        .social-links {
+          justify-content: center;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header class="header">
+      <div class="logo">
+        <h1>ShopMate</h1>
+      </div>
+      <nav class="nav">
+        <a href="index.html">Home</a>
+        <a href="Categories Page.html">Categories</a>
+        <a href="Offers Page.html">Deals</a>
+        <a href="About Us Page.html">About</a>
+        <a href="Contact Us Page.html">Contact</a>
+      </nav>
+      <div class="header-actions">
+        <input type="text" placeholder="Search..." />
+        <a href="#" class="cart"><span>🛒</span> Cart</a>
+        <a href="#" class="login-btn">Login</a>
+        <button id="menu-toggle" style="display: none">☰</button>
+      </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+      <div class="hero-content">
+        <h2>Exclusive Deals & Offers</h2>
+        <p>Grab the best deals before they're gone!</p>
+        <a href="#deals" class="hero-btn">Shop Now</a>
+      </div>
+    </section>
+
+    <!-- Featured Deals -->
+    <section id="featured-deals" class="featured-deals">
+      <h2 class="section-title">Featured Deals</h2>
+      <div class="deal-banner">
+        <div class="deal-text">
+          <h3>Up to 50% Off</h3>
+          <p>On Electronics & Gadgets</p>
+          <a href="#" class="btn">Shop Electronics</a>
+        </div>
+        <img
+          src="https://m.media-amazon.com/images/I/717opUxLU4L._AC_SY170_.jpg"
+          alt="Electronics Deals"
+        />
+      </div>
+      <div class="deal-banner">
+        <div class="deal-text">
+          <h3>Buy 1 Get 1 Free</h3>
+          <p>On Fashion & Accessories</p>
+          <a href="#" class="btn">Shop Fashion</a>
+        </div>
+        <img src="https://m.media-amazon.com/images/I/51iu3cuF7CL._AC_SY200_.jpg" alt="Fashion Deals" />
+      </div>
+    </section>
+
+    <!-- Product Grid -->
+    <section id="deals" class="product-grid">
+      <h2 class="section-title">Today's Top Deals</h2>
+      <div class="grid">
+        <!-- Example Product Card -->
+        <div class="product-card">
+          <img src="https://m.media-amazon.com/images/I/71LzOxb-atL._AC_UY327_FMwebp_QL65_.jpg" alt="Product" />
+          <h3>Wireless Headphones</h3>
+          <p class="price">
+            <span class="original-price"><i class="fa-solid fa-indian-rupee-sign"></i>2,490</span>
+            <span class="discounted-price"><i class="fa-solid fa-indian-rupee-sign"></i>1,299</span>
+          </p>
+          <button class="btn">Add to Cart</button>
+        </div>
+        <div class="product-card">
+          <img src="https://m.media-amazon.com/images/I/61Iw0g8zYYL._AC_UL960_FMwebp_QL65_.jpg" alt="Product" />
+          <h3>Smartwatch</h3>
+          <p class="price">
+            <span class="original-price"><i class="fa-solid fa-indian-rupee-sign"></i>6,999</span>
+            <span class="discounted-price">1<i class="fa-solid fa-indian-rupee-sign"></i>2,549</span>
+          </p>
+          <button class="btn">Add to Cart</button>
+        </div>
+        <div class="product-card">
+          <img src="https://m.media-amazon.com/images/I/41wZw39fRyL._AC_UL480_FMwebp_QL65_.jpg" alt="Product" />
+          <h3>Running Shoes</h3>
+          <p class="price">
+            <span class="original-price"><i class="fa-solid fa-indian-rupee-sign"></i>5,999</span>
+            <span class="discounted-price"><i class="fa-solid fa-indian-rupee-sign"></i>2,599</span>
+          </p>
+          <button class="btn">Add to Cart</button>
+        </div>
+        <div class="product-card">
+          <img src="https://m.media-amazon.com/images/I/71m670zYOXL._AC_UY327_FMwebp_QL65_.jpg" alt="Product" />
+          <h3>Bluetooth Speaker</h3>
+          <p class="price">
+            <span class="original-price"><i class="fa-solid fa-indian-rupee-sign"></i>15,999</span>
+            <span class="discounted-price"><i class="fa-solid fa-indian-rupee-sign"></i>5,299</span>
+          </p>
+          <button class="btn">Add to Cart</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer Section -->
+
+    <footer class="footer">
+      <div class="footer-container">
+        <div class="footer-logo">
+          <h1>ShopMate</h1>
+          <p>Your one-stop online shop for everything you need!</p>
+        </div>
+        <div class="footer-links">
+          <div class="footer-section">
+            <h3>Quick Links</h3>
+            <ul>
+              <li><a href="index.html">Home</a></li>
+              <li><a href="Categories Page.html">Categories</a></li>
+              <li><a href="Offers Page.html">Deals</a></li>
+              <li><a href="About Us Page.html">About</a></li>
+              <li><a href="Contact Us Page.html">Contact</a></li>
+            </ul>
+          </div>
+          <div class="footer-section">
+            <h3>Support</h3>
+            <ul>
+              <li><a href="#">Help Center</a></li>
+              <li><a href="#">Returns & Exchanges</a></li>
+              <li><a href="#">Shipping Info</a></li>
+              <li><a href="#">FAQs</a></li>
+            </ul>
+          </div>
+          <div class="footer-section">
+            <h3>Follow Us</h3>
+            <ul class="social-links">
+              <li><a href="#" class="social-icon"><i class="fa-brands fa-facebook"></i></a></li>
+              <li><a href="#" class="social-icon"><i class="fa-brands fa-twitter"></i></a></li>
+              <li><a href="#" class="social-icon"><i class="fa-brands fa-instagram"></i></a></li>
+              <li><a href="#" class="social-icon"><i class="fa-brands fa-linkedin"></i></a></li>
+            </ul>
+          </div>
+        </div>
+        <div class="footer-bottom">
+          <p>&copy; 2024 ShopMate. All Rights Reserved.</p>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>
